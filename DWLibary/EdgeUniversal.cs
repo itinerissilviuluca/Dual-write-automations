@@ -325,7 +325,7 @@ namespace DWLibary
 
             NetworkAdapter adapter = sender as NetworkAdapter;
 
-            if (e.Type == ResourceType.Fetch && e.Response.Url == "https://login.microsoftonline.com/common/oauth2/v2.0/token")
+            if (e.Type == ResourceType.Fetch && e.Response.Url.StartsWith("https://login.microsoftonline.com/common/oauth2/v2.0/token"))
             {
                 string whatever = String.Empty;
                 //Network mw = new Network();
