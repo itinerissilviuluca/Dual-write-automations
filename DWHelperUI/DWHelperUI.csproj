@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Version>1.0.14</Version>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0-windows7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>LogoFinal.ico</ApplicationIcon>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <!--<PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="LogoFinal.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="LogoFinal.ico" />
+    <Content Include="LogoFinal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="WPF-UI" Version="4.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+        <ProjectReference Include="..\DualWriteHelper\DWHelperCMD.csproj">
+      <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    </ProjectReference>
+    <ProjectReference Include="..\DWLibary\DWLibary.csproj">
+      <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+<!-- Force copy dependencies from referenced projects -->
+  <Target Name="CopyProjectReferenceDependencies" AfterTargets="Build">
+    <ItemGroup>
+      <DWLibaryFiles Include="..\DWLibary\bin\$(Configuration)\net9.0\*.dll" Exclude="..\DWLibary\bin\$(Configuration)\net9.0\DWLibary.dll" />
+      <DWHelperCMDFiles Include="..\DualWriteHelper\bin\$(Configuration)\net9.0\*.dll" Exclude="..\DualWriteHelper\bin\$(Configuration)\net9.0\DWHelperCMD.dll" />
+    </ItemGroup>
+  
+    <Copy SourceFiles="@(DWLibaryFiles)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(DWHelperCMDFiles)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" />
+  </Target>
+</Project>
