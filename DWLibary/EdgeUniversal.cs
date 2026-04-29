@@ -152,7 +152,7 @@ namespace DWLibary
                                 if(userNameEdits.Count == 0)
                                 {
                                     //Dunea
-                                    userNameEdits = driver.FindElements(By.Name("loginfmt"));
+                                    userNameEdits = driver.FindElements(By.Id("userNameInput"));
                                 }
                                 userNameEdit = userNameEdits[0];
                                 userNameEdit.Clear();
