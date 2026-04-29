@@ -146,8 +146,20 @@ namespace DWLibary
                             if (!userOk)
                             {
                                 logger.LogInformation("Entering username");
-                                driver.FindElement(By.Name("loginfmt")).SendKeys(GlobalVar.username); //Username
+
+                                IWebElement userNameEdit = null;
+                                var userNameEdits = driver.FindElements(By.Name("loginfmt"));
+                                if(userNameEdits.Count == 0)
+                                {
+                                    //Dunea
+                                    userNameEdits = driver.FindElements(By.Name("loginfmt"));
+                                }
+                                userNameEdit = userNameEdits[0];
+                                userNameEdit.Clear();
+                                userNameEdit.SendKeys(GlobalVar.username); //Username
+                                
                                 userOk = true;
+                                
                                 driver.FindElement(By.Id("idSIButton9")).Submit(); //passwd
                                 Thread.Sleep(2000);
                             }
@@ -155,9 +167,28 @@ namespace DWLibary
                             if (!pwOk && GlobalVar.password != String.Empty)
                             {
                                 logger.LogInformation("Entering password");
-                                driver.FindElement(By.Name("passwd")).SendKeys(GlobalVar.password); //Enter PW
 
-                                driver.FindElement(By.Id("idSIButton9")).Submit(); //Confirm PW
+                                IWebElement passwordEdit = null;
+                                var passwordEdits = driver.FindElements(By.Name("passwd"));
+                                if(passwordEdits.Count == 0)
+                                {
+                                    //Dunea
+                                    passwordEdits = driver.FindElements(By.Id("passwordInput"));
+                                }
+                                passwordEdit = passwordEdits[0];
+                                passwordEdit.Clear();
+                                passwordEdit.SendKeys(GlobalVar.password);
+
+                                IWebElement submitButton = null;
+                                var submitButtons = driver.FindElements(By.Id("idSIButton9"));
+                                if(submitButtons.Count == 0)
+                                {
+                                    //Dunea
+                                    submitButtons = driver.FindElements(By.Id("submitButton"));
+                                }
+                                submitButton = submitButtons[0];
+                                submitButton.Submit(); //Confirm PW
+
                                 pwOk = true;
                                 Thread.Sleep(2000);
                             }
@@ -186,7 +217,14 @@ namespace DWLibary
                             catch { }
 
                             if (GlobalVar.password != String.Empty && GlobalVar.username != String.Empty)
-                                driver.FindElement(By.Id("idSIButton9")).Submit(); //Confirm Stay Signed in
+                            {
+                                var staySignedInButtons = driver.FindElements(By.Id("idSIButton9"));
+                                //We have this button now only on Dunea
+                                if (staySignedInButtons.Count != 0)
+                                {
+                                    staySignedInButtons[0].Submit(); //Confirm Stay Signed in
+                                }
+                            }
                         }
                         catch
                         {
