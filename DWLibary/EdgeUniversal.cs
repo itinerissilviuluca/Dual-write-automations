@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OpenQA.Selenium.DevTools.V147.Network;
-using DevToolsSessionDomains = OpenQA.Selenium.DevTools.V147.DevToolsSessionDomains;
+using OpenQA.Selenium.DevTools.V151.Network;
+using DevToolsSessionDomains = OpenQA.Selenium.DevTools.V151.DevToolsSessionDomains;
 using DWLibary;
 using OpenQA.Selenium;
 using OpenQA.Selenium.DevTools;
@@ -46,7 +46,7 @@ namespace DWLibary
             //disable console logging 
             //service.UseVerboseLogging = false;
             service.EnableVerboseLogging = false;
-            service.Start();
+            service.StartAsync().GetAwaiter().GetResult();
         }
 
         private void checkKillEdgeDriver()
